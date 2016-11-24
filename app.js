@@ -1,20 +1,19 @@
 var app = angular.module('githubViewer', []);
-var MainController = function($scope, $http, $interval, $log) {
-  $scope.message = "Github G Viewer";
-  $scope.repoSortOrder = "-stargazers_count";
-  $scope.username = "angular";
-  $scope.countdown = 5;
-
+var MainController = function(
+  $scope, github, $interval, $log,
+  $anchorScroll, $location) {
 
   var onUserComplete = function(response) {
     $scope.error = "";
     $scope.person = response.data;
-    $http.get($scope.person.repos_url)
+    github.getRepos($scope.person.repos_url)
       .then(onReposComplete, onError);
   };
 
   var onReposComplete = function(response) {
     $scope.repos = response.data;
+    $location.hash("userDetails");
+    $anchorScroll();
   };
 
   var onError = function(reason) {
@@ -24,7 +23,7 @@ var MainController = function($scope, $http, $interval, $log) {
   var decrementCountdown = function() {
     $scope.countdown -= 1;
     if ($scope.countdown < 1) {
-      $scope.search();
+      $scope.search($scope.username);
     }
   };
 
@@ -33,16 +32,23 @@ var MainController = function($scope, $http, $interval, $log) {
     countDownInterval = $interval(decrementCountdown, 1000, $scope.countdown);
   };
 
-  $scope.search = function() {
-    $log.info("searching for: " + $scope.username);
-    $http.get("https://api.github.com/users/" + $scope.username)
+  $scope.search = function(username) {
+    $log.info("searching for: " + username);
+    github.getUser(username)
       .then(onUserComplete, onError);
-    if (countDownInterval)
+    if (countDownInterval) {
       $interval.cancel(countDownInterval);
-    $scope.countdown = null;
+      $scope.countdown = null;
+    }
   };
 
   startCountdown();
 };
+
+$scope.message = "Github G Viewer";
+$scope.repoSortOrder = "-stargazers_count";
+$scope.username = "angular";
+$scope.countdown = 5;
+app.controller("MainController", MainController);
 
 app.controller("MainController", MainController);
