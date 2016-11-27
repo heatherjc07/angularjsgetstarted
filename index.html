@@ -2,40 +2,17 @@
 <html ng-app="githubViewer">
 
 <head>
-  <meta charset="utf-8" />
-  <title>AngularJS Plunker</title>
-  <script>
-    document.write('<base href="' + document.location + '" />');
-  </script>
   <link rel="stylesheet" href="style.css" />
   <script data-require="angular.js@1.5.x" src="https://code.angularjs.org/1.5.8/angular.js" data-semver="1.5.8"></script>
+  <script data-require="angular-route@1.5.8" data-semver="1.5.8" src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
   <script src="app.js"></script>
+  <script src="MainController.js"></script>
   <script src="github.js"></script>
 </head>
 
-<body ng-controller="MainController">
-  <h1>{{message}}</h1>
-  <div>{{error}}</div>
-
-  <form name="searchUser" ng-submit="search()">
-    <input type="search" required placeholder="username to find" ng-model="username" />
-    <input type="submit" value="Search" />
-  </form>
-  
-  {{countdown}}
-
-  <div ng-show="repos">
-  Order:
-  <select ng-model="repoSortOrder">
-    <option value="-stargazers_count">Star Gazer Count Desc</option>
-    <option value="+stargazers_count">Star Gazer Count Asc</option>
-    <option value="-name">Name Desc</option>
-    <option value="+name">Name Asc</option>
-    <option value="-language">Language Desc</option>
-    <option value="+language">Language Asc</option>
-  </select>
-  </div>
-  <div ng-include="'userdetails.html'"></div>
+<body>
+  <h1>Github Viewer</h1>
+  <div ng-view></div>
 </body>
 
 </html>

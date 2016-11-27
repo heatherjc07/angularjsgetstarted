@@ -1,18 +1,29 @@
+<div ng-show="repos">
+  Order:
+  <select ng-model="repoSortOrder">
+    <option value="-stargazers_count">Star Gazer Count Desc</option>
+    <option value="+stargazers_count">Star Gazer Count Asc</option>
+    <option value="-name">Name Desc</option>
+    <option value="+name">Name Asc</option>
+    <option value="-language">Language Desc</option>
+    <option value="+language">Language Asc</option>
+  </select>
+</div>
 <div>
-    <h2>{{person.name}}</h2>
-    <img ng-src="{{person.avatar_url}}" title="{{person.name}}" />
-  </div>
-  <table ng-show="repos">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Stars</th>
-        <th>Language</th>
-      </tr>
-    </thead>
-    <tr ng-repeat="repo in repos | orderBy:repoSortOrder">
-      <td>{{repo.name}}</td>
-      <td>{{repo.stargazers_count}}</td>
-      <td>{{repo.language}}</td>
+  <h2>{{person.name}}</h2>
+  <img ng-src="{{person.avatar_url}}" title="{{person.name}}" />
+</div>
+<table ng-show="repos">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Stars</th>
+      <th>Language</th>
     </tr>
-  </table>
+  </thead>
+  <tr ng-repeat="repo in repos | orderBy:repoSortOrder">
+    <td>{{repo.name}}</td>
+    <td>{{repo.stargazers_count}}</td>
+    <td>{{repo.language}}</td>
+  </tr>
+</table>
